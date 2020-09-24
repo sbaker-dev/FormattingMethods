@@ -4,6 +4,7 @@ import pandas as pd
 import csv
 from itertools import chain
 from datetime import datetime
+import os
 
 
 def extract_headers(path):
@@ -131,3 +132,36 @@ def terminal_time():
     A way to remember when you initialised a cell by return the current hour and minute as a string
     """
     return f"{datetime.now().time().hour}:{datetime.now().time().minute}"
+
+
+def exposure_years(file_dir, phenotypes_dict, population_index, id_data):
+    """
+
+    :param file_dir: The directory of exposure data, where file names should have a numeric prefix for sorting purposes
+    :type file_dir: str
+
+    :param phenotypes_dict: Phenotype name to the index that name is in terms of zero based columns in the file.
+    :type phenotypes_dict: dict
+
+    :param population_index: The index of the population key, should be common across all files
+    :type population_index: int
+
+    :param id_data: The data dictionary to append the information too.
+    :type id_data: dict
+
+    :return: Nothing, information is appended to id_data dict then stops
+    :rtype: None
+    """
+    # Sort of file list to be ordered from 1-max year
+    year_list = [[int(file[19:-4]), file] for file in os.listdir(file_dir)]
+    year_list.sort(key=lambda x: x[0])
+
+    # For each phenotype
+    for name, phenotype_i in zip(phenotypes_dict.keys(), phenotypes_dict.values()):
+        print(name, phenotype_i)
+
+        # For each year of exposure we calculate the rates for each individual and then assign it to them.
+        for ii, file in year_list:
+            print(ii, file)
+            year_rates = compute_rates(file_dir, file, phenotype_i, population_index, 100)
+            assign_rates(id_data, year_rates, name)
