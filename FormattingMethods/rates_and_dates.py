@@ -134,7 +134,7 @@ def terminal_time():
     return f"{datetime.now().time().hour}:{datetime.now().time().minute}"
 
 
-def exposure_years(file_dir, phenotypes_dict, population_index, id_data):
+def exposure_years(file_dir, phenotypes_dict, population_index, id_data, rates_per=1000):
     """
 
     :param file_dir: The directory of exposure data, where file names should have a numeric prefix for sorting purposes
@@ -148,6 +148,9 @@ def exposure_years(file_dir, phenotypes_dict, population_index, id_data):
 
     :param id_data: The data dictionary to append the information too.
     :type id_data: dict
+
+    :key rates_per: We calculate rates as the phenotype per 'rates_per' individuals, defaults to 1000.
+    :type rates_per: int
 
     :return: Nothing, information is appended to id_data dict then stops
     :rtype: None
@@ -163,5 +166,5 @@ def exposure_years(file_dir, phenotypes_dict, population_index, id_data):
         # For each year of exposure we calculate the rates for each individual and then assign it to them.
         for ii, file in year_list:
             print(ii, file)
-            year_rates = compute_rates(file_dir, file, phenotype_i, population_index, 100)
+            year_rates = compute_rates(file_dir, file, phenotype_i, population_index, rates_per)
             assign_rates(id_data, year_rates, name)
