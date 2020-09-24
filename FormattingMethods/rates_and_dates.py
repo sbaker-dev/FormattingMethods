@@ -3,6 +3,7 @@ from IPython.display import clear_output
 import pandas as pd
 import csv
 from itertools import chain
+from datetime import datetime
 
 
 def extract_headers(path):
@@ -123,3 +124,10 @@ def check_date(date, date_to_check):
         return 0
     else:
         return 1
+
+
+def terminal_time():
+    """
+    A way to remember when you initialised a cell by return the current hour and minute as a string
+    """
+    return f"{datetime.now().time().hour}:{datetime.now().time().minute}"
