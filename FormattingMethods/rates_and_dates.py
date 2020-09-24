@@ -168,3 +168,24 @@ def exposure_years(file_dir, phenotypes_dict, population_index, id_data, rates_p
             print(ii, file)
             year_rates = compute_rates(file_dir, file, phenotype_i, population_index, rates_per)
             assign_rates(id_data, year_rates, name)
+
+
+def format_id_data_dict(id_data, phenotypes_dict):
+    """
+    Take id_data dict and extract the data into a list of lists format to write to csv. Performs different operations on
+    lists, to ensure each element of the list is written out rather than writen as a list
+
+    :param id_data: A dict containing values for each id of the study
+    :type id_data: dict
+
+    :param phenotypes_dict: The phenotype dict of type Name : column index
+    :type phenotypes_dict: dict
+
+    :return: List of lists, where each sub list is all the information that was extracted for a given individual in the
+        formatting of this paper
+    :rtype: list[list]
+    """
+    return [[ids] +                                                             # The id of the individual
+            [value for value in ids_data.values() if type(value) != list] +     # Non list values
+            flatten([ids_data[name] for name in phenotypes_dict.keys()])        # List values from Phenotypes
+            for ids, ids_data in zip(id_data.keys(), id_data.values())]
