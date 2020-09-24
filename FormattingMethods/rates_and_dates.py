@@ -113,3 +113,13 @@ def average_phenotypes(row, average_list_lengths):
     values
     """
     return [average_exposure([r for i, r in enumerate(row) if i < average]) for average in average_list_lengths]
+
+
+def check_date(date, date_to_check):
+    """
+    Check to see if the date of birth is before or after the date to check
+    """
+    if date < date_to_check:
+        return 0
+    else:
+        return 1
