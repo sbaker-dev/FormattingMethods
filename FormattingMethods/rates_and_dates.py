@@ -185,7 +185,52 @@ def format_id_data_dict(id_data, phenotypes_dict):
         formatting of this paper
     :rtype: list[list]
     """
-    return [[ids] +                                                             # The id of the individual
-            [value for value in ids_data.values() if type(value) != list] +     # Non list values
-            flatten([ids_data[name] for name in phenotypes_dict.keys()])        # List values from Phenotypes
+    return [[ids] +                                                          # The id of the individual
+            [value for value in ids_data.values() if type(value) != list] +  # Non list values
+            flatten([ids_data[name] for name in phenotypes_dict.keys()])     # List values from Phenotypes
             for ids, ids_data in zip(id_data.keys(), id_data.values())]
+
+
+def loaded_columns_dict(full_sample, phenotypes_dict):
+    """
+    For each of our list phenotypes, get the columns of the complete sample that they where constructed from.
+    """
+    return {key: [i for i, header in enumerate(full_sample.headers) if key in header] for key in phenotypes_dict.keys()}
+
+
+def average_complete_sample(column_dict, average_list, cleaned_sample):
+    """
+    Once a sample has been cleaned, you may wish to average some of the columns, this method will do that
+
+    :param column_dict: A dict of the phenotype name: index values of the columns of that name
+    :type column_dict: dict
+
+    :param average_list: A list of ints, indexes below that int will be averaged so should be of values
+        1-len(columns - 1)
+    :type average_list: list[int]
+
+    :param cleaned_sample: The cleaned sample that we are going to use for the analysis
+
+    :return: The averaged rows from the cleaned sample
+    """
+
+    return [[average_phenotypes([id_row[i] for i in value], average_list) for value in column_dict.values()]
+            for id_row in cleaned_sample]
+
+
+def construct_analysis_sample(original_headers, loaded_dict, end, cleaned_sample, write_directory, write_name,
+                              averaged_rows=None, average_list=None):
+    """
+    If we have averaged rows, add these to our sample and allow us to cut of the columns that where used to construct
+    them via setting and end index. If no averages where constructed, just write out the cleaned sample.
+    """
+
+    if averaged_rows and average_list:
+        headers = original_headers[:end] + flatten(
+            [[f"{name}_{i}" for i in average_list] for name in loaded_dict.keys()])
+        reformed_row = [row[:end] + flatten(averages) for row, averages in zip(cleaned_sample, averaged_rows)]
+    else:
+        headers = original_headers
+        reformed_row = cleaned_sample
+
+    write_csv(write_directory, write_name, headers, reformed_row)
