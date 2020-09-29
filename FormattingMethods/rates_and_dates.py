@@ -63,6 +63,13 @@ def rebase_year(date_of_birth, rebase_list):
             return rebase_list[i - 1].year
 
 
+def rate(phenotype, population, rates_per):
+    """
+    Method that computes a rate
+    """
+    return (phenotype / population) * rates_per
+
+
 def compute_rates(load_directory, file_to_load, phe_index, pop_index, rates_per=1000):
     """
     This will assign the rates of a given phenotype to a dictionary if the row has the required information on
@@ -75,7 +82,7 @@ def compute_rates(load_directory, file_to_load, phe_index, pop_index, rates_per=
     for row in load_file.row_data:
         if (row[pop_index] != "NA") and (row[phe_index] != "NA") and (row[pop_index] != "Failed") \
                 and (row[phe_index] != "Failed"):
-            place_lookup[row[0]] = ((float(row[phe_index]) / float(row[pop_index])) * rates_per)
+            place_lookup[row[0]] = rate(float(row[phe_index]), float(row[pop_index]), rates_per)
         else:
             place_lookup[row[0]] = ""
     return place_lookup

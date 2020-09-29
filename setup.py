@@ -8,7 +8,7 @@ Just some methods that are used consistently in construction or formatting of pa
 Separated out from multiple jupyter notebooks so that instead of duplicating and potentially having version issues there
 is a single repository that can be updated for all analysis.
 
-Repositroy at [this page][repo]
+Repository at [this page][repo]
 
 [repo]: https://github.com/sbaker-dev/FormattingMethods
 
@@ -20,7 +20,7 @@ MAINTAINER = 'Samuel Baker'
 MAINTAINER_EMAIL = 'samuelbaker.researcher@gmail.com'
 LICENSE = 'MIT'
 DOWNLOAD_URL = "https://github.com/sbaker-dev/FormattingMethods"
-VERSION = "0.06.0"
+VERSION = "0.06.1"
 PYTHON_REQUIRES = ">=3.6"
 
 INSTALL_REQUIRES = [
