@@ -134,6 +134,16 @@ def check_date(date, date_to_check):
         return 1
 
 
+def within_date(date_min, date_max, current_date):
+    """
+    Test if a provided date is greater than or equal to a min date or less than max date
+    """
+    if date_min <= current_date < date_max:
+        return True
+    else:
+        return False
+
+
 def terminal_time():
     """
     A way to remember when you initialised a cell by return the current hour and minute as a string
