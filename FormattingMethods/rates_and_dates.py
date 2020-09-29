@@ -244,7 +244,7 @@ def construct_analysis_sample(original_headers, loaded_dict, end, cleaned_sample
 
     if averaged_rows and average_list:
         headers = original_headers[:end] + flatten(
-            [[f"{name}_{i}" for i in average_list] for name in loaded_dict.keys()])
+            [[f"{name}_Average{i}" for i in average_list] for name in loaded_dict.keys()])
         reformed_row = [row[:end] + flatten(averages) for row, averages in zip(cleaned_sample, averaged_rows)]
     else:
         headers = original_headers

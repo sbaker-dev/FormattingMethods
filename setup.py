@@ -20,7 +20,7 @@ MAINTAINER = 'Samuel Baker'
 MAINTAINER_EMAIL = 'samuelbaker.researcher@gmail.com'
 LICENSE = 'MIT'
 DOWNLOAD_URL = "https://github.com/sbaker-dev/FormattingMethods"
-VERSION = "0.06.2"
+VERSION = "0.06.3"
 PYTHON_REQUIRES = ">=3.6"
 
 INSTALL_REQUIRES = [
