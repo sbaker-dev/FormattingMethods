@@ -253,11 +253,11 @@ def construct_analysis_sample(original_headers, loaded_dict, end, cleaned_sample
     write_csv(write_directory, write_name, headers, reformed_row)
 
 
-def missing_to_zero(row):
+def missing_to_zero(row_entry):
     """
     Return a zero in place of missing
     """
-    if row == "":
-        return 0
+    if row_entry == "":
+        return float(0)
     else:
-        return row
+        return float(row_entry)
