@@ -1,9 +1,9 @@
+from FormattingMethods.list_operations import flatten
 from csvObject import write_csv, CsvObject
 from IPython.display import clear_output
+from datetime import datetime
 import pandas as pd
 import csv
-from itertools import chain
-from datetime import datetime
 import os
 
 
@@ -107,13 +107,6 @@ def average_exposure(row):
         return sum([float(r) for r in row]) / len(row)
     else:
         return ""
-
-
-def flatten(list_of_lists):
-    """
-    Flatten a list of lists into a list
-    """
-    return list(chain(*list_of_lists))
 
 
 def average_phenotypes(row, average_list_lengths):
