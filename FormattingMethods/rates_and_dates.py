@@ -1,57 +1,6 @@
-from FormattingMethods.list_operations import flatten
 from csvObject import write_csv, CsvObject
-from IPython.display import clear_output
-from datetime import datetime
-import pandas as pd
-import csv
+from FormattingMethods import flatten
 import os
-
-
-def extract_headers(path):
-    """
-    Extract the first row from the file and return it as a list
-    """
-    with open(path) as header_extract:
-        csv_data = csv.reader(header_extract)
-        for row in csv_data:
-            return row
-
-
-def write_chunks(csv_path, header_list, header_type, write_directory, file_name, chunk_size=1000):
-    """
-    This iterates through a section of a csv file by using the header_list to only uses certain columns and loads them
-    in the type specified in header type.
-
-    :param csv_path: Path to the csv you want to iterate through
-    :param header_list: Headers you want to extract from the master csv file
-    :param header_type: The type of each column
-    :param chunk_size: The number of rows you want to chunk load at a time
-    :param write_directory: Write directory
-    :param file_name: Write Name
-    :return: Nothing, write out the file and then stop.
-    """
-    row_data = []
-    for index, chunk in enumerate(pd.read_csv(csv_path, chunksize=chunk_size, usecols=header_list, dtype=header_type)):
-        print((index + 1) * chunk_size)
-
-        raw_list = [chunk[header].to_list() for header in header_list]
-        transposed_list = [[row[i] for row in raw_list] for i in range(len(raw_list[0]))]
-        for row in transposed_list:
-            row_data.append(row)
-
-    write_csv(write_directory, file_name, header_list, row_data)
-    clear_output(wait=True)
-    print(f"Finished writing {file_name}")
-
-
-def parse_int(age):
-    """
-    Try isolating converting to int, unless its nan then return zero.
-    """
-    try:
-        return int(age)
-    except ValueError:
-        return 0
 
 
 def rebase_year(date_of_birth, rebase_list):
@@ -135,13 +84,6 @@ def within_date(date_min, date_max, current_date):
         return True
     else:
         return False
-
-
-def terminal_time():
-    """
-    A way to remember when you initialised a cell by return the current hour and minute as a string
-    """
-    return f"{datetime.now().time().hour}:{datetime.now().time().minute}"
 
 
 def exposure_years(file_dir, phenotypes_dict, population_index, id_data, rates_per=1000):
@@ -244,13 +186,3 @@ def construct_analysis_sample(original_headers, loaded_dict, end, cleaned_sample
         reformed_row = cleaned_sample
 
     write_csv(write_directory, write_name, headers, reformed_row)
-
-
-def missing_to_zero(row_entry):
-    """
-    Return a zero in place of missing
-    """
-    if row_entry == "":
-        return float(0)
-    else:
-        return float(row_entry)
