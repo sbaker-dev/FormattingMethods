@@ -1,4 +1,3 @@
-from IPython.display import clear_output
 from csvObject import write_csv
 import pandas as pd
 import csv
@@ -37,5 +36,4 @@ def write_chunks(csv_path, header_list, header_type, write_directory, file_name,
             row_data.append(row)
 
     write_csv(write_directory, file_name, header_list, row_data)
-    clear_output(wait=True)
     print(f"Finished writing {file_name}")

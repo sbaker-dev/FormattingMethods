@@ -25,7 +25,6 @@ PYTHON_REQUIRES = ">=3.6"
 
 INSTALL_REQUIRES = [
     'csvObject',
-    'IPython',
     'pandas',
     'miscSupports']
 
