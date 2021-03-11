@@ -89,7 +89,7 @@ def assigned_exposure(unique_place_list, phenotype_keys, database, age, average_
 
                 phenotype_values.append(exposures + averages)
 
-        link_ref_dict[f"{year}__{month}__{gid}__{place}"] = phenotype_values
+        link_ref_dict[f"{year}__{month}__{gid}__{place}"] = flatten(phenotype_values)
 
     return link_ref_dict
 
