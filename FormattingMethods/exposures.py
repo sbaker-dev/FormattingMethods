@@ -76,16 +76,12 @@ def assigned_exposure(unique_place_list, phenotype_keys, database, age, average_
             # age in the average_exposure list.
             else:
                 exposures = []
-                averages = []
                 for i, (exposure, population) in enumerate(zip(phenotype_years, relevant_pop)):
                     exposures.append((exposure / population) * rate_per)
 
-                    # If we want the average by a given age, iterate the totals up to the current age to determine the
-                    # average exposure
-                    if average_exposures and (i + 1 in average_exposures):
-                        av_exposure = np.average([phenotype_years[ii] for ii in range(i + 1)])
-                        av_pop = np.average([relevant_pop[ii] for ii in range(i + 1)])
-                        averages.append((av_exposure / av_pop) * rate_per)
+                averages = []
+                for av in average_exposures:
+                    averages.append(np.average([exposures[i] for i in range(av)]))
 
                 phenotype_values.append(exposures + averages)
 
